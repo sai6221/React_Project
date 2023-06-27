@@ -1,15 +1,22 @@
-import { MouseEvent } from "react";
+import { useState } from "react";
 
-function ListGroup() {
-  let items = ["New York", "San Francisco", "Paris"];
-  let selectedIndex = 0;
+interface Props {
+  items: string[];
+  heading: string;
+  onSelectItem: (item: string) => void;
+}
+
+function ListGroup({ items, heading, onSelectItem }: Props) {
+  //Hook
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  //   arr[0] //is variable selectedIndex
+  //   arr[1] //is updater function
 
   //Event Handler
-  const handleClick = (event: MouseEvent) => console.log(event);
 
   return (
     <>
-      <h1>List</h1>
+      <h1>{heading}</h1>
       {items.length === 0 ? <p>No results found.</p> : null}
       {/* {items.length && <p>No results found.</p>} Alternte way of writing the above without null */}
       <ul className="list-group">
@@ -21,7 +28,10 @@ function ListGroup() {
                 : "list-group-item"
             }
             key={item}
-            onClick={handleClick}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(item);
+            }}
           >
             {item}
           </li>
